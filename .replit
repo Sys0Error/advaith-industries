@@ -48,3 +48,9 @@ timeoutMs = 20000
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+SUPABASE_URL = "https://srksfyadtzgojeyssdcf.supabase.co"
+SUPABASE_KEY = "sb_publishable_uzKjruyGtmL7sg-lGKw_5A_yJMdfrG1"
