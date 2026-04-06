@@ -1,5 +1,6 @@
 import os
 from flask import Flask, jsonify, request
+import requests
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -10,6 +11,8 @@ CORS(app)
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY", "6LcOPqksAAAAAL8MMC6rb4PDYnir3Uti_knPO4GS")
 
 supabase = None
 if SUPABASE_URL and SUPABASE_KEY:
@@ -140,6 +143,28 @@ def submit_contact():
         return jsonify({"success": True, "id": record_id})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/verify-recaptcha", methods=["POST"])
+def verify_recaptcha():
+    data = request.get_json(silent=True) or {}
+    token = data.get("token")
+    
+    if not token:
+        return jsonify({"success": False, "error": "No token provided"}), 400
+        
+    try:
+        verify_response = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={
+                "secret": RECAPTCHA_SECRET_KEY,
+                "response": token
+            }
+        )
+        result = verify_response.json()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 # ─────────────────────────────────────────────────────────────────────────────
