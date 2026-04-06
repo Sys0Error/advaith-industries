@@ -18,15 +18,7 @@ assets = {
 }
 
 def fix_image_classes(html):
-    # Fix the main product cards to not be huge. Use a fixed height for consistency.
-    # Replace aspect-square with a fixed max height container
-    # Before: <div class="aspect-square bg-surface-container-highest overflow-hidden w-full">
-    # After: <div class="h-64 bg-surface-container-highest/20 overflow-hidden w-full flex items-center justify-center p-4">
-    html = html.replace('aspect-square bg-surface-container-highest overflow-hidden w-full', 'h-72 bg-surface-container-highest/30 overflow-hidden w-full flex items-center justify-center p-4 rounded-t-xl group')
-    html = html.replace('object-contain p-6', 'max-h-full max-w-full object-contain transition-all duration-500 group-hover:scale-105')
-    
-    # Fix homepage large card (HV Bushing Clamps)
-    # The homepage featured product can still be bigger but needs containment.
+    html = html.replace('object-contain p-6', 'max-h-full max-w-full object-contain p-6 transition-all duration-500 group-hover:scale-105')
     return html
 
 def update_home():
@@ -44,64 +36,37 @@ def update_home():
 
 def update_catalog():
     with open('frontend/advaith_product_catalog/code.html', 'r', encoding='utf-8') as f:
-        html = f.read()
-Port 5000 is default; make sure it doesn't conflict? No, frontend is static.
+        content = f.read()
     
-    # Clear previous custom generated cards to start fresh (avoids duplicates)
-    html = re.split(r'<!-- Product: ', html)[0]
-    if '<!-- Capability Statement -->' not in html:
-        # If we split it away, we need to re-add the end tag
-        pass 
+    # Extract the header part (everything before the grid)
+    header_part = re.split(r'<div class="grid grid-cols-1 md:grid-cols-12 gap-8">', content)[0]
+    if len(header_part) == len(content): # fallback if class differs
+        header_part = re.split(r'<div class="grid grid-cols-1 md:grid-cols-12 gap-6">', content)[0]
     
-    # Actually, it's safer to just re-read the original "clean" catalog if possible or use a more robust regex
-    # Let's just update existing matched text.
+    # Reconstruct grid
+    grid_start = '<div class="grid grid-cols-1 md:grid-cols-12 gap-8 justify-center">'
     
-    # Update HV Bushing Clamps (First featured product in catalog)
-    html = re.sub(
-        r'(<h2 class="text-3xl font-bold text-on-background mb-4">Hv bushing clamps</h2>.*?<img alt="Industrial Metal Components"[^>]*)src="[^"]+"',
-        rf'\1src="{assets["HV Bushing Clamps"]}"',
-        html,
-        flags=re.DOTALL
-    )
-    
-    # Update manual cards for standard items
-    html = re.sub(r'(<img alt="Electrical Bushings"[^>]*)src="[^"]+"', rf'\1src="{assets["LV Epoxy Bushing"]}"', html)
-
-    # Now add all assets as a clean grid
     new_cards = []
     for name, link in assets.items():
         card = f"""
 <!-- Product: {name} -->
-<div class="md:col-span-4 group bg-surface-container-lowest/80 rounded-xl transition-all duration-500 hover:shadow-[0px_20px_40px_rgba(0,50,125,0.1)] border border-outline/5 hover:border-primary/20 flex flex-col overflow-hidden">
-    <div class="h-64 md:h-72 bg-surface-container-highest/20 overflow-hidden w-full flex items-center justify-center p-6 group-hover:bg-primary/5 transition-colors">
-        <img alt="{name}" class="max-h-full max-w-full object-contain drop-shadow-xl transition-all duration-700 group-hover:scale-110" src="{link}"/>
+<div class="md:col-span-4 group bg-surface-container-lowest/90 rounded-2xl transition-all duration-500 hover:shadow-2xl border border-outline/5 hover:border-primary/20 flex flex-col overflow-hidden">
+    <div class="h-64 bg-surface-container-highest/10 overflow-hidden w-full flex items-center justify-center p-8 group-hover:bg-primary/5 transition-colors">
+        <img alt="{name}" class="max-h-full max-w-full object-contain drop-shadow-2xl transition-all duration-700 group-hover:scale-110" src="{link}"/>
     </div>
     <div class="p-8">
-        <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-3 block opacity-70">Industrial Portfolio</span>
-        <h3 class="text-xl font-bold text-on-background mb-3 group-hover:text-primary transition-colors">{name}</h3>
-        <p class="text-secondary text-sm leading-relaxed line-clamp-3">Precision machined component built for reliability and high-performance industrial applications. Manufactured to exacting standards.</p>
-        <a href="/contact" class="mt-6 inline-flex items-center gap-2 text-xs font-bold text-primary group-hover:gap-4 transition-all">
-            Inquire Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary mb-3 block opacity-60">Industrial Component</span>
+        <h3 class="text-xl font-bold text-on-background mb-3 group-hover:text-primary transition-colors leading-tight">{name}</h3>
+        <p class="text-secondary text-sm leading-relaxed line-clamp-2 opacity-80">Precision-engineered high-performance component manufactured to exacting industrial standards.</p>
+        <a href="/contact" class="mt-8 inline-flex items-center gap-2 text-xs font-extra-bold text-primary hover:gap-4 transition-all uppercase tracking-widest">
+            Inquire Now <span class="material-symbols-outlined text-sm">arrow_forward</span>
         </a>
     </div>
 </div>
 """
         new_cards.append(card)
 
-    # Inject into grid
-    # Looking for the main grid container start
-    grid_target = '<div class="grid grid-cols-1 md:grid-cols-12 gap-6">'
-    final_html = html.split(grid_target)[0] + grid_target + "\n" + "".join(new_cards) + "\n" + '</div>\n<!-- Capability Statement -->'
-    
-    # Need to keep the footer and end of file
-    # For now, I'll just write it back with the footer I know is there.
-    
-    with open('frontend/advaith_product_catalog/code.html', 'w', encoding='utf-8') as f:
-        f.write(final_html)
-
-# Simple check to finish the HTML file since my split might have eaten the rest
-def append_footer():
-    footer_text = """
+    footer = """
 </main>
 <!-- Footer -->
 <footer class="w-full border-t border-[#c3c6d5]/15 bg-[#f7f9fb] dark:bg-slate-950 font-['Manrope'] text-sm tracking-wide">
@@ -109,69 +74,52 @@ def append_footer():
 <div class="text-lg font-black text-[#00327d] dark:text-blue-400">
                 Advaith Industries
             </div>
-<div class="flex flex-wrap justify-center gap-8">
-<a class="text-[#515f74] hover:text-[#00327d] hover:underline transition-all" href="#">Privacy Policy</a>
-<a class="text-[#515f74] hover:text-[#00327d] hover:underline transition-all" href="#">Terms of Service</a>
-<a class="text-[#515f74] hover:text-[#00327d] hover:underline transition-all" href="#">Sustainability</a>
-<a class="text-[#515f74] hover:text-[#00327d] hover:underline transition-all" href="#">Careers</a>
+<div class="flex flex-wrap justify-center gap-8 text-[#515f74]">
+<a class="hover:text-[#00327d] hover:underline" href="#">Privacy Policy</a>
+<a class="hover:text-[#00327d] hover:underline" href="#">Terms of Service</a>
 </div>
 <div class="text-[#515f74]">
                 © 2024 Advaith Industries. All rights reserved.
             </div>
 </div>
 </footer>
-<!-- Mobile Navigation Shell (Visible only on mobile) -->
+<!-- Mobile Navigation Shell -->
 <div id="mobile-bottom-nav" class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-surface/90 backdrop-blur-xl shadow-2xl rounded-full px-6 py-3 flex justify-around items-center border border-outline-variant/10 z-[60]">
-<a class="flex flex-col items-center gap-1 text-secondary" href="/">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="text-[10px] font-bold uppercase">Home</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-[#00327d]" href="/products">
-<span class="material-symbols-outlined">inventory_2</span>
-<span class="text-[10px] font-bold uppercase">Products</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-secondary" href="/about">
-<span class="material-symbols-outlined">factory</span>
-<span class="text-[10px] font-bold uppercase">Facility</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-secondary" href="/contact">
-<span class="material-symbols-outlined">mail</span>
-<span class="text-[10px] font-bold uppercase">Contact</span>
-</a>
+<a class="flex flex-col items-center gap-1 text-secondary" href="/"><span class="material-symbols-outlined">home</span><span class="text-[10px] font-bold uppercase">Home</span></a>
+<a class="flex flex-col items-center gap-1 text-[#00327d]" href="/products"><span class="material-symbols-outlined">inventory_2</span><span class="text-[10px] font-bold uppercase">Products</span></a>
+<a class="flex flex-col items-center gap-1 text-secondary" href="/about"><span class="material-symbols-outlined">factory</span><span class="text-[10px] font-bold uppercase">Facility</span></a>
+<a class="flex flex-col items-center gap-1 text-secondary" href="/contact"><span class="material-symbols-outlined">mail</span><span class="text-[10px] font-bold uppercase">Contact</span></a>
 </div>
-<!-- Custom Interactions -->
 <div id="blob" class="hidden md:block pointer-events-none fixed top-0 left-0 w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] z-[9999] opacity-30 mix-blend-multiply transition-transform duration-[50ms] ease-out will-change-transform"></div>
 <style>
     #mobile-bottom-nav { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-    .btn-interactive { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important; }
-    .btn-interactive:active { transform: scale(0.92) !important; }
 </style>
 <script>
-  const blob = document.getElementById('blob');
-  if (blob) {
-    window.addEventListener('mousemove', (e) => {
-      requestAnimationFrame(() => blob.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`);
-    });
-  }
   let lastScrollY = window.scrollY;
   const mobileNav = document.getElementById('mobile-bottom-nav');
   if (mobileNav) {
     window.addEventListener('scroll', () => {
       const currentScrollY = window.scrollY;
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        mobileNav.style.transform = 'translate(-50%, 150%)'; // hide
+        mobileNav.style.transform = 'translate(-50%, 150%)'; 
       } else {
-        mobileNav.style.transform = 'translate(-50%, 0)'; // show
+        mobileNav.style.transform = 'translate(-50%, 0)'; 
       }
       lastScrollY = currentScrollY;
-    }, { passive: true });
+    });
+  }
+  const blob = document.getElementById('blob');
+  if (blob) {
+    window.addEventListener('mousemove', (e) => {
+      requestAnimationFrame(() => blob.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`);
+    });
   }
 </script>
 </body></html>
 """
-    with open('frontend/advaith_product_catalog/code.html', 'a', encoding='utf-8') as f:
-        f.write(footer_text)
+    final_html = header_part + grid_start + "".join(new_cards) + "</div>" + footer
+    with open('frontend/advaith_product_catalog/code.html', 'w', encoding='utf-8') as f:
+        f.write(final_html)
 
 update_home()
 update_catalog()
-append_footer()
