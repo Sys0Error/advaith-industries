@@ -150,7 +150,7 @@
 </div>
 <div class="lg:col-span-7">
 <div class="bg-surface-container-lowest p-8 md:p-12 rounded-xl shadow-[0px_20px_40px_rgba(0,50,125,0.06)] border border-outline-variant/15">
-<form class="space-y-8">
+<form class="space-y-8" onsubmit="submitInquiry(event)">
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 <div class="space-y-2">
 <label class="text-xs font-bold uppercase tracking-widest text-secondary px-1" for="name">Name</label>
@@ -163,7 +163,11 @@
 </div>
 <div class="space-y-2">
 <label class="text-xs font-bold uppercase tracking-widest text-secondary px-1" for="email">Email</label>
-<input class="w-full bg-surface-container-high border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-lowest transition-all placeholder:text-outline/50" id="email" name="email" placeholder="advaithindustries167@gmail.com" type="email"/>
+<input class="w-full bg-surface-container-high border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-lowest transition-all placeholder:text-outline/50" id="email" name="email" placeholder="advaithindustries167@gmail.com" required type="email"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary px-1" for="phone">Phone Number</label>
+<input class="w-full bg-surface-container-high border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-lowest transition-all placeholder:text-outline/50" id="phone" name="phone" placeholder="+91 00000 00000" required type="tel"/>
 </div>
 <div class="space-y-2">
 <label class="text-xs font-bold uppercase tracking-widest text-secondary px-1" for="message">Message</label>
@@ -205,24 +209,19 @@
 </div>
 </footer>
 <script>
-    
     function submitInquiry(event) {
         event.preventDefault();
         const name = document.getElementById('name').value;
+        const company = document.getElementById('company').value;
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
         const message = document.getElementById('message').value;
         
-        const text = `*New Inquiry | Advaith Industries*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Phone:* ${phone}%0A*Message:* ${message}`;
-        const whatsappUrl = `https://wa.me/919980164673?text=${text}`; // Using placeholder number, modify if needed
+        const text = `*New Case Inquiry | Advaith Industries*%0A%0A*Name:* ${name}%0A*Company:* ${company}%0A*Email:* ${email}%0A*Phone:* ${phone}%0A*Message:* ${message}`;
+        const whatsappUrl = `https://wa.me/919980164673?text=${text}`;
         
         window.open(whatsappUrl, '_blank');
     }
- catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    }
-    document.addEventListener('DOMContentLoaded', loadData);
 </script>
 <!-- Mobile Navigation Shell (Visible only on mobile) -->
 <div id="mobile-bottom-nav" class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-surface/90 backdrop-blur-xl shadow-2xl rounded-full px-6 py-3 flex justify-around items-center border border-outline-variant/10 z-[60]">
