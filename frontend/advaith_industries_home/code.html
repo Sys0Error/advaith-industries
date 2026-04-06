@@ -88,9 +88,9 @@
 <!-- TopNavBar -->
 <nav class="fixed top-0 w-full z-50 bg-[#f7f9fb]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0px_20px_40px_rgba(0,50,125,0.06)] font-['Manrope'] antialiased">
 <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
-<div class="text-xl font-bold tracking-tight text-[#00327d] dark:text-blue-400" style="">
+<a href="/" class="text-xl font-bold tracking-tight text-[#00327d] dark:text-blue-400" style="">
                 Advaith Industries
-            </div>
+            </a>
 <div class="hidden md:flex items-center space-x-10">
 <a class="text-[#00327d] dark:text-blue-300 font-semibold border-b-2 border-[#00327d] pb-1" href="/">Home</a>
 <a class="text-[#515f74] dark:text-slate-400 font-medium hover:text-[#00327d] hover:scale-105 transition-transform duration-300 ease-out" href="/products">Products</a>
@@ -317,7 +317,7 @@
     document.addEventListener('DOMContentLoaded', loadData);
 </script>
 <!-- Custom Interactions -->
-<div id="blob" class="hidden md:block pointer-events-none fixed top-0 left-0 w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] -z-10 transition-transform duration-[50ms] ease-out will-change-transform"></div>
+<div id="blob" class="hidden md:block pointer-events-none fixed top-0 left-0 w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] z-[9999] opacity-30 mix-blend-multiply transition-transform duration-[50ms] ease-out will-change-transform"></div>
 <style>
     #mobile-bottom-nav { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     .btn-interactive { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important; }
