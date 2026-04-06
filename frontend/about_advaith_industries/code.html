@@ -266,4 +266,56 @@
     }
     document.addEventListener('DOMContentLoaded', loadData);
 </script>
+<!-- Mobile Navigation Shell (Visible only on mobile) -->
+<div id="mobile-bottom-nav" class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-surface/90 backdrop-blur-xl shadow-2xl rounded-full px-6 py-3 flex justify-around items-center border border-outline-variant/10 z-[60]">
+<a class="flex flex-col items-center gap-1 text-secondary" href="/">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary" href="/products">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-bold uppercase">Products</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[#00327d]" href="/about">
+<span class="material-symbols-outlined">factory</span>
+<span class="text-[10px] font-bold uppercase">Facility</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-secondary" href="/contact">
+<span class="material-symbols-outlined">mail</span>
+<span class="text-[10px] font-bold uppercase">Contact</span>
+</a>
+</div>
+<!-- Custom Interactions -->
+<div id="blob" class="hidden md:block pointer-events-none fixed top-0 left-0 w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] -z-10 transition-transform duration-[50ms] ease-out will-change-transform"></div>
+<style>
+    #mobile-bottom-nav { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .btn-interactive { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important; }
+    .btn-interactive:active { transform: scale(0.92) !important; }
+</style>
+<script>
+  const blob = document.getElementById('blob');
+  if (blob) {
+    window.addEventListener('mousemove', (e) => {
+      requestAnimationFrame(() => blob.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`);
+    });
+  }
+  let lastScrollY = window.scrollY;
+  const mobileNav = document.getElementById('mobile-bottom-nav');
+  if (mobileNav) {
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        mobileNav.style.transform = 'translate(-50%, 150%)'; // hide
+      } else {
+        mobileNav.style.transform = 'translate(-50%, 0)'; // show
+      }
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+  }
+  document.querySelectorAll('a, button').forEach(el => {
+      if (el.className.includes('bg-primary') || el.className.includes('border-2') || el.className.includes('machined-sheen') || el.className.includes('shadow-xl') || el.className.includes('bg-surface-container-lowest')) {
+          el.classList.add('btn-interactive');
+      }
+  });
+</script>
 </body></html>
