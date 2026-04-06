@@ -213,41 +213,75 @@
 <script>
     async function submitInquiry(event) {
         event.preventDefault();
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
         
-        // Execute reCAPTCHA v3
-        grecaptcha.ready(function() {
-            grecaptcha.execute('6LcOPqksAAAAAG5AxVLvN2fkINwyaz2HZYp3tNbP', {action: 'submit_inquiry'}).then(async function(token) {
-                // Verify with backend
-                try {
-                    const verifyRes = await fetch('/api/verify-recaptcha', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ token: token })
-                    });
-                    const verifyResult = await verifyRes.json();
-                    
-                    if (!verifyResult.success || verifyResult.score < 0.5) {
-                        alert('Security check failed. Please try again or contact us directly.');
-                        return;
-                    }
-                } catch (err) {
-                    console.error('Verification error:', err);
-                    alert('Security check failed. Please try again.');
-                    return;
-                }
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Verifying...';
 
-                const name = document.getElementById('name').value;
-                const company = document.getElementById('company').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const message = document.getElementById('message').value;
-                
-                const text = encodeURIComponent(`*New Case Inquiry | Advaith Industries*\n\n*Name:* ${name}\n*Company:* ${company}\n*Email:* ${email}\n*Phone:* ${phone}\n*Message:* ${message}`);
-                const whatsappUrl = `${verifyResult.whatsapp_base}${text}`;
-                
-                window.open(whatsappUrl, '_blank');
+        try {
+            if (typeof grecaptcha === 'undefined') {
+                throw new Error('Security service (reCAPTCHA) not loaded. Please refresh the page.');
+            }
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LcOPqksAAAAAG5AxVLvN2fkINwyaz2HZYp3tNbP', {action: 'submit'}).then(async function(token) {
+                    try {
+                        // Verify with backend
+                        const verifyRes = await fetch('/api/verify-recaptcha', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ token: token })
+                        });
+                        
+                        if (!verifyRes.ok) {
+                            throw new Error(`Server error: ${verifyRes.status}`);
+                        }
+
+                        const verifyResult = await verifyRes.json();
+                        
+                        if (!verifyResult.success) {
+                            console.error('reCAPTCHA failed:', verifyResult);
+                            alert('Security check failed. Our system thinks you might be a bot. If this is an error, please try again or contact us via email.');
+                            resetBtn();
+                            return;
+                        }
+
+                        // Proceed to WhatsApp
+                        const name = document.getElementById('name').value;
+                        const company = document.getElementById('company').value;
+                        const email = document.getElementById('email').value;
+                        const phone = document.getElementById('phone').value;
+                        const message = document.getElementById('message').value;
+                        
+                        const msgBody = `*New Case Inquiry | Advaith Industries*\n\n*Name:* ${name}\n*Company:* ${company}\n*Email:* ${email}\n*Phone:* ${phone}\n*Message:* ${message}`;
+                        const whatsappBase = verifyResult.whatsapp_base || "https://wa.me/919949190246?text=";
+                        const whatsappUrl = `${whatsappBase}${encodeURIComponent(msgBody)}`;
+                        
+                        window.open(whatsappUrl, '_blank');
+                        resetBtn();
+                    } catch (innerErr) {
+                        console.error('Inner error:', innerErr);
+                        alert(`Verification failed: ${innerErr.message}`);
+                        resetBtn();
+                    }
+                }).catch(err => {
+                    console.error('reCAPTCHA execute error:', err);
+                    alert('Could not generate security token. Please check your internet connection.');
+                    resetBtn();
+                });
             });
-        });
+        } catch (err) {
+            console.error('Submission error:', err);
+            alert(err.message);
+            resetBtn();
+        }
+
+        function resetBtn() {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
     }
 </script>
 <!-- Mobile Navigation Shell (Visible only on mobile) -->
