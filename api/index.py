@@ -13,6 +13,7 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
 RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY", "6LcOPqksAAAAAL8MMC6rb4PDYnir3Uti_knPO4GS")
+WHATSAPP_NUMBER = "919949190246"
 
 supabase = None
 if SUPABASE_URL and SUPABASE_KEY:
@@ -162,6 +163,12 @@ def verify_recaptcha():
             }
         )
         result = verify_response.json()
+        
+        if result.get("success"):
+            # Construct WA URL on backend to hide number from frontend
+            # We assume form data is sent along or we just return the template
+            result["whatsapp_base"] = f"https://wa.me/{WHATSAPP_NUMBER}?text="
+            
         return jsonify(result)
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500

@@ -242,8 +242,8 @@
                 const phone = document.getElementById('phone').value;
                 const message = document.getElementById('message').value;
                 
-                const text = `*New Case Inquiry | Advaith Industries*%0A%0A*Name:* ${name}%0A*Company:* ${company}%0A*Email:* ${email}%0A*Phone:* ${phone}%0A*Message:* ${message}`;
-                const whatsappUrl = `https://wa.me/91949190246?text=${text}`;
+                const text = encodeURIComponent(`*New Case Inquiry | Advaith Industries*\n\n*Name:* ${name}\n*Company:* ${company}\n*Email:* ${email}\n*Phone:* ${phone}\n*Message:* ${message}`);
+                const whatsappUrl = `${verifyResult.whatsapp_base}${text}`;
                 
                 window.open(whatsappUrl, '_blank');
             });
