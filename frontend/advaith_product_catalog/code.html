@@ -104,12 +104,6 @@
 </div>
 </nav>
 <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
-<!-- Hero Section -->
-<header class="mb-20">
-<div class="flex flex-col md:flex-row items-end gap-6 justify-between border-l-4 border-primary pl-8">
-<div class="max-w-2xl">
-<p class="text-xs font-bold uppercase tracking-[0.2em] text-secondary mb-4">Precision Manufacturing</p>
-<h1 class="text-5xl md:text-7xl font-extrabold text-on-background tracking-tighter leading-none mb-6">
                         Industrial <br/> Excellence.
                     </h1>
 </div>
@@ -280,6 +274,69 @@
 <a class="flex flex-col items-center gap-1 text-secondary" href="/about"><span class="material-symbols-outlined">factory</span><span class="text-[10px] font-bold uppercase">Facility</span></a>
 <a class="flex flex-col items-center gap-1 text-secondary" href="/contact"><span class="material-symbols-outlined">mail</span><span class="text-[10px] font-bold uppercase">Contact</span></a>
 </div>
+<script>
+    // Filtering and Search Logic
+    const searchInput = document.getElementById('product-search');
+    const sortSelect = document.getElementById('sort-select');
+    const filterChips = document.querySelectorAll('.filter-chip');
+    const productGrid = document.getElementById('product-grid');
+    const products = Array.from(document.querySelectorAll('div[id^="Product: "], <!-- Product: ')); // Simplified: using the comment identifiers
+    
+    // Selecting items more reliably
+    const productCards = Array.from(productGrid.children).filter(el => el.innerHTML.includes('<!-- Product:'));
+
+    function updateCatalog() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const activeFilter = document.querySelector('.filter-chip.active').dataset.filter;
+        const sortOrder = sortSelect.value;
+
+        let visibleCount = 0;
+        productCards.forEach(card => {
+            const name = card.querySelector('h3').textContent.toLowerCase();
+            const text = card.textContent.toLowerCase();
+            const matchesSearch = name.includes(searchTerm) || text.includes(searchTerm);
+            
+            // Basic categorical mapping (hardcoded for demo)
+            let category = 'transformer';
+            if (name.includes('terminal') || name.includes('clamp')) category = 'terminals';
+            else if (name.includes('plug') || name.includes('cap')) category = 'industrial';
+
+            const matchesFilter = activeFilter === 'all' || category === activeFilter;
+
+            if (matchesSearch && matchesFilter) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Sorting
+        const sorted = [...productCards].sort((a, b) => {
+            const nameA = a.querySelector('h3').textContent;
+            const nameB = b.querySelector('h3').textContent;
+            return sortOrder === 'name-asc' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+        });
+        
+        sorted.forEach(card => productGrid.appendChild(card));
+    }
+
+    searchInput.addEventListener('input', updateCatalog);
+    sortSelect.addEventListener('change', updateCatalog);
+    filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            filterChips.forEach(c => {
+                c.classList.remove('active', 'bg-primary', 'text-white');
+                c.classList.add('bg-primary/5');
+            });
+            chip.classList.add('active', 'bg-primary', 'text-white');
+            chip.classList.remove('bg-primary/5');
+            updateCatalog();
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', updateCatalog);
+</script>
 <div id="blob" class="hidden md:block pointer-events-none fixed top-0 left-0 w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] z-[9999] opacity-30 mix-blend-multiply transition-transform duration-[50ms] ease-out will-change-transform"></div>
 <style>
     #mobile-bottom-nav { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -287,22 +344,18 @@
 <script>
   let lastScrollY = window.scrollY;
   const mobileNav = document.getElementById('mobile-bottom-nav');
-  if (mobileNav) {
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        mobileNav.style.transform = 'translate(-50%, 150%)'; 
-      } else {
-        mobileNav.style.transform = 'translate(-50%, 0)'; 
-      }
-      lastScrollY = currentScrollY;
-    });
-  }
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth < 768) {
+      if (window.scrollY > lastScrollY && window.scrollY > 100) mobileNav.style.transform = 'translate(-50%, 150%)';
+      else mobileNav.style.transform = 'translate(-50%, 0)';
+      lastScrollY = window.scrollY;
+    }
+  }, {passive:true});
   const blob = document.getElementById('blob');
-  if (blob) {
-    window.addEventListener('mousemove', (e) => {
-      requestAnimationFrame(() => blob.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`);
+  window.addEventListener('mousemove', (e) => {
+    requestAnimationFrame(() => {
+        if(blob) blob.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
     });
-  }
+  });
 </script>
 </body></html>

@@ -29,15 +29,50 @@ if SUPABASE_URL and SUPABASE_KEY:
 ALLOWED_TABLES = {"products", "contacts", "categories", "inquiries"}
 
 
-@app.route("/api/data")
-def get_data():
+@app.route("/api/data", methods=["GET", "POST"])
+def manage_data():
     if not supabase:
-        return jsonify({
-            "error": "Supabase client not configured. Set SUPABASE_URL and SUPABASE_KEY."
-        }), 503
+        return jsonify({"error": "Supabase client not configured."}), 503
 
+    if request.method == "POST":
+        # Check payload size (limit to 100KB to prevent DDoS/Memory issues)
+        if request.content_length and request.content_length > 102400:
+            return jsonify({"error": "Payload too large"}), 413
+            
+        try:
+            data = request.get_json(silent=False)
+            if data is None:
+                return jsonify({"error": "Invalid or empty JSON payload"}), 400
+        except Exception:
+            return jsonify({"error": "Malformed JSON in request body"}), 400
+
+        # Validate that we have some data
+        if not data:
+            return jsonify({"error": "Request body cannot be empty"}), 400
+
+        table_name = request.args.get("table", "inquiries")
+        if table_name not in ALLOWED_TABLES:
+            return jsonify({"error": f"Table '{table_name}' is not writable."}), 400
+
+        # Basic type validation for common fields
+        for key, value in data.items():
+            if not isinstance(value, str) and value is not None:
+                return jsonify({"error": f"Field '{key}' must be a string."}), 400
+            if isinstance(value, str) and len(value) > 5000:
+                return jsonify({"error": f"Field '{key}' exceeds maximum length."}), 400
+
+        try:
+            response = supabase.table(table_name).insert(data).execute()
+            return jsonify({"success": True, "data": response.data}), 201
+        except Exception as e:
+            # Handle duplicates or other DB errors
+            error_msg = str(e)
+            if "duplicate key" in error_msg.lower():
+                return jsonify({"error": "Duplicate entry detected"}), 409
+            return jsonify({"error": error_msg}), 500
+
+    # GET logic
     table_name = request.args.get("table", "products")
-
     if table_name not in ALLOWED_TABLES:
         return jsonify({"error": f"Table '{table_name}' is not accessible."}), 400
 
