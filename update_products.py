@@ -20,7 +20,7 @@ def fix_image_classes(html):
 def update_home():
     with open('frontend/advaith_industries_home/code.html', 'r', encoding='utf-8') as f:
         html = f.read()
-Port 5000 is default; make sure it doesn't conflict? No, frontend is static.
+# Port 5000 is default; make sure it doesn't conflict? No, frontend is static.
         
     html = fix_image_classes(html)
     
