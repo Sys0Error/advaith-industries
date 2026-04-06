@@ -1,318 +1,214 @@
 <!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "surface-container-highest": "#e0e3e5",
-                    "on-tertiary-fixed": "#380d00",
-                    "primary": "#00327d",
-                    "on-tertiary-container": "#ffaa8a",
-                    "on-error-container": "#93000a",
-                    "secondary-fixed-dim": "#b9c7df",
-                    "on-tertiary-fixed-variant": "#802900",
-                    "surface-bright": "#f7f9fb",
-                    "on-secondary-container": "#57657a",
-                    "outline": "#737784",
-                    "secondary": "#515f74",
-                    "on-background": "#191c1e",
-                    "on-secondary-fixed": "#0d1c2e",
-                    "inverse-surface": "#2d3133",
-                    "surface-tint": "#2559bd",
-                    "on-secondary": "#ffffff",
-                    "on-primary-fixed": "#001946",
-                    "surface": "#f7f9fb",
-                    "surface-container-high": "#e6e8ea",
-                    "on-surface-variant": "#434653",
-                    "primary-container": "#0047ab",
-                    "surface-container": "#eceef0",
-                    "tertiary-container": "#8b2e01",
-                    "on-primary-fixed-variant": "#00419e",
-                    "outline-variant": "#c3c6d5",
-                    "surface-dim": "#d8dadc",
-                    "tertiary": "#651f00",
-                    "surface-container-low": "#f2f4f6",
-                    "primary-fixed-dim": "#b1c5ff",
-                    "secondary-fixed": "#d5e3fc",
-                    "secondary-container": "#d5e3fc",
-                    "on-tertiary": "#ffffff",
-                    "tertiary-fixed-dim": "#ffb59a",
-                    "background": "#f7f9fb",
-                    "on-error": "#ffffff",
-                    "inverse-primary": "#b1c5ff",
-                    "on-primary-container": "#a5bdff",
-                    "error-container": "#ffdad6",
-                    "surface-variant": "#e0e3e5",
-                    "on-primary": "#ffffff",
-                    "on-surface": "#191c1e",
-                    "on-secondary-fixed-variant": "#3a485b",
-                    "primary-fixed": "#dae2ff",
-                    "tertiary-fixed": "#ffdbcf",
-                    "surface-container-lowest": "#ffffff",
-                    "inverse-on-surface": "#eff1f3",
-                    "error": "#ba1a1a"
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Our Facility | Advaith Industries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                        "primary": "#00327d",
+                        "secondary": "#515f74",
+                        "surface": "#f7f9fb",
+                        "on-surface": "#191c1e"
+                },
+                fontFamily: {
+                        "body": ["Manrope"]
+                }
+              },
             },
-            "borderRadius": {
-                    "DEFAULT": "0.125rem",
-                    "lg": "0.25rem",
-                    "xl": "0.5rem",
-                    "full": "0.75rem"
-            },
-            "fontFamily": {
-                    "headline": ["Manrope"],
-                    "body": ["Manrope"],
-                    "label": ["Manrope"]
-            }
-          },
-        },
-      }
+          }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .zoom-hover:hover img {
-            transform: scale(1.1);
+    <style>
+        .blueprint-bg {
+            background-image: 
+                linear-gradient(rgba(0, 50, 125, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 50, 125, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
         .machined-sheen {
             background: linear-gradient(135deg, #00327d 0%, #0047ab 100%);
         }
+        .step-line::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            bottom: 0;
+            width: 2px;
+            background: #00327d20;
+            transform: translateX(-50%);
+        }
     </style>
 </head>
-<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
-<!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-[#f7f9fb]/80 dark:bg-slate-900/80 backdrop-blur-xl bg-gradient-to-b from-[#f7f9fb] to-transparent shadow-[0px_20px_40px_rgba(0,50,125,0.06)] font-['Manrope'] antialiased">
-<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
-<a href="/" class="text-xl font-bold tracking-tight text-[#00327d] dark:text-blue-400">Advaith Industries</a>
-<!-- Desktop Links -->
-<div class="hidden md:flex items-center gap-8">
-<a class="text-[#515f74] dark:text-slate-400 font-medium hover:text-[#00327d] hover:scale-105 transition-transform duration-300 ease-out" href="/">Home</a>
-<a class="text-[#515f74] dark:text-slate-400 font-medium hover:text-[#00327d] hover:scale-105 transition-transform duration-300 ease-out" href="/products">Products</a>
-<a class="text-[#00327d] dark:text-blue-300 font-semibold border-b-2 border-[#00327d] pb-1 hover:scale-105 transition-transform duration-300 ease-out" href="/about">Our Facility</a>
-<a class="text-[#515f74] dark:text-slate-400 font-medium hover:text-[#00327d] hover:scale-105 transition-transform duration-300 ease-out" href="/contact">Contact</a>
-<a href="/contact" class="machined-sheen text-white px-6 py-2 rounded-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-300">Get Started</a>
+<body class="bg-surface font-body text-on-surface antialiased">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
+    <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+        <a href="/" class="text-xl font-bold tracking-tight text-primary">Advaith Industries</a>
+        <div class="hidden md:flex items-center gap-8">
+            <a class="text-secondary font-medium hover:text-primary transition-colors" href="/">Home</a>
+            <a class="text-secondary font-medium hover:text-primary transition-colors" href="/products">Products</a>
+            <a class="text-primary font-bold border-b-2 border-primary pb-1" href="/about">Our Facility</a>
+            <a class="text-secondary font-medium hover:text-primary transition-colors" href="/contact">Contact</a>
+            <a href="/contact" class="machined-sheen text-white px-5 py-2 rounded-lg font-semibold text-sm shadow-lg">Get Started</a>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-24 min-h-screen blueprint-bg">
+    <!-- Breadcrumb-style Header -->
+    <header class="max-w-7xl mx-auto px-6 pt-12 pb-8 border-b border-gray-200/50">
+        <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary mb-4">
+            <a href="/" class="opacity-50">Home</a>
+            <span class="opacity-30">/</span>
+            <span>Our Facility</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-black text-primary tracking-tighter">
+            Inside the Engine Room.
+        </h1>
+        <p class="text-lg text-secondary mt-4 max-w-2xl leading-relaxed">
+            Infrastructure development isn't just about components; it's about the precision and environment where they are born.
+        </p>
+    </header>
+
+    <!-- Narrative Section -->
+    <section class="max-w-7xl mx-auto px-6 py-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            <!-- Sidebar Navigation/Stats -->
+            <div class="lg:col-span-4 space-y-12 lg:sticky lg:top-32">
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-6">Facility Specs</h3>
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-end border-b border-gray-200 pb-2">
+                            <span class="text-secondary text-sm">Floor Area</span>
+                            <span class="font-bold text-primary">10,000+ Sq Ft</span>
+                        </div>
+                        <div class="flex justify-between items-end border-b border-gray-200 pb-2">
+                            <span class="text-secondary text-sm">Location</span>
+                            <span class="font-bold text-primary">Bangalore, IN</span>
+                        </div>
+                        <div class="flex justify-between items-end border-b border-gray-200 pb-2">
+                            <span class="text-secondary text-sm">Tolerance Class</span>
+                            <span class="font-bold text-primary">Micron Level</span>
+                        </div>
+                        <div class="flex justify-between items-end border-b border-gray-200 pb-2">
+                            <span class="text-secondary text-sm">Energy Rating</span>
+                            <span class="font-bold text-primary">Green Industrial</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-primary rounded-2xl text-white shadow-2xl">
+                    <h4 class="text-xl font-bold mb-4">Tour the Facility</h4>
+                    <p class="text-white/70 text-sm mb-6 leading-relaxed">
+                        We welcome industrial partners and infrastructure developers for physical site inspections.
+                    </p>
+                    <a href="/contact" class="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-xl font-bold text-sm">
+                        Schedule Visit <span class="material-symbols-outlined text-sm">event</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="lg:col-span-8 space-y-24">
+                <!-- Large Feature Image -->
+                <div class="rounded-3xl overflow-hidden shadow-2xl bg-gray-200 h-[500px]">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDujbbOteOWwAPE7DJY6Fd1KljbyvnMV_h1OgdbceEmMz0nqvNXcu7yuxx0g8FlYbO_bSfP03rfxUhTSsCiUb2UjUtkjAQKaVX8t8sW7N3teRT2mP7UhJQ_5RQoH96FnPJKddyaXLHY_kPLXiOnEWCC2A9IbP0stlA9V1LMo4ddVqsB3PMc0ZABwbQGyU1VQKoCCiCb25fSfDg2hTDpEO8TyZ0Ov2T5RO943vqNE1oh0_rGWMohkX2W691GH7AFvyX1oZ46Y0MCTy8o" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Workshop Floor"/>
+                </div>
+
+                <!-- Process Grid -->
+                <div class="space-y-12">
+                    <h2 class="text-3xl font-extrabold text-primary tracking-tight">The Production Cycle</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="p-8 bg-white border border-gray-100 rounded-2xl shadow-sm hover:translate-y-[-4px] transition-transform">
+                            <span class="text-4xl font-black text-primary/10 mb-4 block">01</span>
+                            <h4 class="text-lg font-bold mb-2">Raw Forging</h4>
+                            <p class="text-secondary text-sm leading-relaxed">Sourcing premium industrial grade brass and alloys from certified suppliers to ensure material integrity from the start.</p>
+                        </div>
+                        <div class="p-8 bg-white border border-gray-100 rounded-2xl shadow-sm hover:translate-y-[-4px] transition-transform">
+                            <span class="text-4xl font-black text-primary/10 mb-4 block">02</span>
+                            <h4 class="text-lg font-bold mb-2">Precision Machining</h4>
+                            <h5 class="text-xs font-bold text-primary/50 uppercase mb-3">Multi-Axis Milling</h5>
+                            <p class="text-secondary text-sm leading-relaxed">Our CNC floor operates at micron-level tolerances, delivering consistent output across thousands of units.</p>
+                        </div>
+                        <div class="p-8 bg-white border border-gray-100 rounded-2xl shadow-sm hover:translate-y-[-4px] transition-transform">
+                            <span class="text-4xl font-black text-primary/10 mb-4 block">03</span>
+                            <h4 class="text-lg font-bold mb-2">Multi-Stage QC</h4>
+                            <p class="text-secondary text-sm leading-relaxed">Every batch is physically inspected using digital micrometers and stress-tested for electrical and mechanical stability.</p>
+                        </div>
+                        <div class="p-8 bg-white border border-gray-100 rounded-2xl shadow-sm hover:translate-y-[-4px] transition-transform">
+                            <span class="text-4xl font-black text-primary/10 mb-4 block">04</span>
+                            <h4 class="text-lg font-bold mb-2">Technical Delivery</h4>
+                            <p class="text-secondary text-sm leading-relaxed">Secure industrial packing and verified logistics ensure that precision components reach your transformers without damage.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Footer Note -->
+                <div class="p-12 bg-gray-900 rounded-3xl text-white relative overflow-hidden">
+                    <div class="relative z-10 lg:flex items-center justify-between gap-12">
+                        <div class="max-w-md">
+                            <h3 class="text-2xl font-bold mb-4">Certified for Excellence</h3>
+                            <p class="text-white/60 text-sm leading-relaxed">Our facility complies with national safety and quality standards, maintaining an unblemished record for over 15 years.</p>
+                        </div>
+                        <div class="mt-8 lg:mt-0 px-8 py-4 bg-white/5 border border-white/10 rounded-2xl text-center">
+                            <span class="block text-3xl font-black mb-1">99.9%</span>
+                            <span class="text-[10px] uppercase font-bold tracking-widest text-white/40">Compliance Accuracy</span>
+                        </div>
+                    </div>
+                    <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Unified Footer -->
+<footer class="w-full border-t border-gray-100 bg-white py-12 px-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="text-lg font-black text-primary">Advaith Industries</div>
+        <div class="flex gap-8 text-sm text-secondary font-medium">
+            <a href="#" class="hover:underline">Sustainability</a>
+            <a href="#" class="hover:underline">Careers</a>
+            <a href="#" class="hover:underline">Terms</a>
+        </div>
+        <div class="text-secondary text-xs">© 2024 Advaith Industries</div>
+    </div>
+</footer>
+
+<!-- Same Mobile Nav for consistency -->
+<div id="mobile-bottom-nav" class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-surface/90 backdrop-blur-xl shadow-2xl rounded-full px-6 py-3 flex justify-around items-center border border-outline-variant/10 z-[60] transition-transform duration-300">
+    <a class="flex flex-col items-center gap-1 text-secondary" href="/"><span class="material-symbols-outlined">home</span><span class="text-[10px] font-bold uppercase">Home</span></a>
+    <a class="flex flex-col items-center gap-1 text-secondary" href="/products"><span class="material-symbols-outlined">inventory_2</span><span class="text-[10px] font-bold uppercase">Products</span></a>
+    <a class="flex flex-col items-center gap-1 text-primary font-bold" href="/about"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">factory</span><span class="text-[10px] font-bold uppercase">Facility</span></a>
+    <a class="flex flex-col items-center gap-1 text-secondary" href="/contact"><span class="material-symbols-outlined">mail</span><span class="text-[10px] font-bold uppercase">Contact</span></a>
 </div>
 
-</div>
-</nav>
-<main class="pt-24">
-<!-- Hero Section -->
-<section class="relative px-6 py-20 max-w-7xl mx-auto lg:py-32">
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-<div class="z-10">
-<span class="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Established Precision</span>
-<h1 class="text-5xl md:text-7xl font-bold text-on-surface tracking-tight mb-8 leading-[1.1]">
-                        Industrial <br/> <span class="text-primary">Precision</span> In Every Cut.
-                    </h1>
-<p class="text-lg text-secondary leading-relaxed max-w-xl mb-10">
-                        At Advaith Industries, we define the standard for local manufacturing. Our facility is a testament to the synergy between advanced machining and artisanal dedication.
-                    </p>
-<div class="flex flex-wrap gap-4">
-<a href="/products" class="machined-sheen text-on-primary px-8 py-4 rounded-lg font-bold shadow-lg hover:translate-y-[-2px] transition-all duration-300 inline-block text-center">Explore Facility</a>
-<a href="/contact" class="bg-surface-container-high text-on-surface px-8 py-4 rounded-lg font-bold hover:bg-surface-container-highest transition-all duration-300 inline-block text-center">Quality Standards</a>
-</div>
-</div>
-<div class="relative group overflow-hidden rounded-xl shadow-2xl">
-<img class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Close-up of a high-precision CNC milling machine cutting through heavy steel with bright sparks and cooling fluid" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSoXfDm9Y9BXtNkRD_-dcrbzQgOCpKQtunYWlqUzku8BDknvRZM9XrKASb2-yxdHNmJKIVFbo9-A0FoFYiy1iBDLa4rkaJzJkoK9gOafoGndCtDkKaHiyOm7orheKyGvJJYaaJxoZi22uuXcjtKgliLscvOLhlsSCBUn29TO571MQqNZMVfFo57Pe-kkphBmHH4rNZeaVeJC3ifYRk_OtaGP3PdQ-6yE1pO9407ixDPQvi_1Qx8fg7-A6eB-o4TZ0-Qv6ZjhDlcFd9"/>
-<div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500"></div>
-</div>
-</div>
-</section>
-<!-- The "Machined" Philosophy Bento Grid -->
-<section class="bg-surface-container-low py-24 px-6">
-<div class="max-w-7xl mx-auto">
-<div class="mb-16 text-center">
-<h2 class="text-3xl md:text-4xl font-bold tracking-tight">Our Core Standards</h2>
-<div class="h-1 w-20 bg-primary mx-auto mt-4"></div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<!-- Card 1: Quality -->
-<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/15 flex flex-col justify-between group hover:shadow-md transition-shadow">
-<div>
-<span class="material-symbols-outlined text-primary text-4xl mb-6">verified</span>
-<h3 class="text-xl font-bold mb-4">Uncompromising Quality</h3>
-<p class="text-secondary text-sm leading-relaxed">Every component undergoes a multi-stage inspection protocol, ensuring that nothing leaves our floor without meeting strict internal tolerances.</p>
-</div>
-<div class="mt-8 overflow-hidden rounded-lg aspect-video">
-<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Technician in a clean industrial lab using a micrometer to measure the diameter of a machined aluminum component" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQjos4YkBAgndPYViHzpmrtzAHI-TNBkqS1EMA-uiQydg4tGUHlLfkLGJ6rDZ6f4DkiITf_TLoZfU-hPq5nwYc4fyNJmS4PssH83UobwqXKH-_mtX9OY79T2ZSJoPyOvUufhIuiigbxxMVkXkFK1XajCv-bkc7DRO83GfeaNA02zg6e90fS_9eIwQvePvAhAl9uN-J3J8jBQOKYAJnWR6FgjkfpFdGUx37Sr1SpKqpHD-Rj0EXSnIAMhKdW0expEaknULOgLBSMECX"/>
-</div>
-</div>
-<!-- Card 2: Precision -->
-<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/15 flex flex-col justify-between group hover:shadow-md transition-shadow md:mt-12">
-<div>
-<span class="material-symbols-outlined text-primary text-4xl mb-6">precision_manufacturing</span>
-<h3 class="text-xl font-bold mb-4">Extreme Precision</h3>
-<p class="text-secondary text-sm leading-relaxed">Utilizing the latest in multi-axis machining technology, we achieve tolerances that define the peak of industrial excellence.</p>
-</div>
-<div class="mt-8 overflow-hidden rounded-lg aspect-video">
-<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Detailed view of a laser cutting machine creating intricate patterns in a metal sheet with a bright orange glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO5XhwKe8jOYluyWPSIkQITki3cDdpEr3743NSVDTv8TyFC617lNM3XdGnBdA2bLiMYLuvvbgso036dzpi9gUtF1bE0pM42SFlC2pfhn-Z4ocS3Zwaw5IGmUOx6cPCn5_U4vOUAy13x7DlkvT2ScDoFFnAUY_MMlXfSQ_HOWLbFNhbU-oVULNe_KEMiHKGbiB_cc6PzDTYd91p0nQjWg0B7dQtnbkXFMUkPdLdKHTmZqhfeHVvlMMMgoaBoCMNAYpcgtjj-eFVcUq2"/>
-</div>
-</div>
-<!-- Card 3: Reliability -->
-<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/15 flex flex-col justify-between group hover:shadow-md transition-shadow">
-<div>
-<span class="material-symbols-outlined text-primary text-4xl mb-6">settings_suggest</span>
-<h3 class="text-xl font-bold mb-4">Sturdy Reliability</h3>
-<p class="text-secondary text-sm leading-relaxed">Our local facility is built for consistency. We provide reliable lead times and predictable results for heavy-duty industrial needs.</p>
-</div>
-<div class="mt-8 overflow-hidden rounded-lg aspect-video">
-<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Interior of a large organized industrial warehouse with tall shelves and heavy machinery in the background under bright LED lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUmyMs0rWCfpN7c582WZvCX2lVozf8DimBqmqqQW8P1HsJ1mB0qR3EUrIgPPv6W4gGHsUa3h6UPHjUByyB6CF8oDkWHetp6V2o71pZgqObNIHaVcMRvy82DsUR-aveBp5qT_bsFtsJ5KrS9B3QvKV7B310QmW10ChSCXgQg1QJ7qy8khCXFYlDH4VoewymoVgSkcKyT2mo7GV_hYQqH0DE3kjWfL0CGvhzfmtrVYs4YTywueNXfUWKOtGbLA0tcE4vJIItjokjvOUo"/>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Our Facility Detail -->
-<section class="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-<div class="relative">
-<div class="aspect-square bg-surface-container-highest rounded-2xl overflow-hidden shadow-2xl">
-<img class="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" data-alt="Wide shot of a clean modern industrial manufacturing facility with workers in uniform operating heavy specialized equipment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDujbbOteOWwAPE7DJY6Fd1KljbyvnMV_h1OgdbceEmMz0nqvNXcu7yuxx0g8FlYbO_bSfP03rfxUhTSsCiUb2UjUtkjAQKaVX8t8sW7N3teRT2mP7UhJQ_5RQoH96FnPJKddyaXLHY_kPLXiOnEWCC2A9IbP0stlA9V1LMo4ddVqsB3PMc0ZABwbQGyU1VQKoCCiCb25fSfDg2hTDpEO8TyZ0Ov2T5RO943vqNE1oh0_rGWMohkX2W691GH7AFvyX1oZ46Y0MCTy8o"/>
-</div>
-<div class="absolute -bottom-6 -right-6 bg-primary text-on-primary p-8 rounded-xl shadow-xl hidden md:block max-w-[200px]">
-<p class="text-3xl font-bold mb-1">10k+</p>
-<p class="text-xs font-label tracking-widest uppercase">Sq Ft Production</p>
-</div>
-</div>
-<div>
-<h2 class="text-display-lg text-4xl font-bold tracking-tight mb-8">Crafted In Our <br/> Local Facility</h2>
-<p class="text-lg text-secondary mb-8 leading-loose">
-                        We pride ourselves on maintaining a state-of-the-art facility that serves as the backbone of our community's manufacturing strength. By keeping all production local, we maintain a level of oversight that is simply impossible with remote alternatives.
-                    </p>
-<ul class="space-y-6">
-<li class="flex items-start gap-4">
-<span class="material-symbols-outlined text-primary mt-1">check_circle</span>
-<div>
-<h4 class="font-bold text-on-surface">Advanced Tooling</h4>
-<p class="text-secondary text-sm">Every tool is calibrated daily to ensure absolute dimensional accuracy.</p>
-</div>
-</li>
-<li class="flex items-start gap-4">
-<span class="material-symbols-outlined text-primary mt-1">check_circle</span>
-<div>
-<h4 class="font-bold text-on-surface">Local Expertise</h4>
-<p class="text-secondary text-sm">Our team consists of specialized technicians who have mastered the art of industrial production.</p>
-</div>
-</li>
-<li class="flex items-start gap-4">
-<span class="material-symbols-outlined text-primary mt-1">check_circle</span>
-<div>
-<h4 class="font-bold text-on-surface">Material Integrity</h4>
-<p class="text-secondary text-sm">We source premium raw materials that meet strict industrial grade certifications.</p>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</section>
-<!-- Stats Section -->
-<section class="bg-primary text-on-primary py-16">
-<div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-<div>
-<p class="text-4xl font-bold mb-2">99.8%</p>
-<p class="text-xs uppercase tracking-widest opacity-80">Precision Accuracy</p>
-</div>
-<div>
-<p class="text-4xl font-bold mb-2">24/7</p>
-<p class="text-xs uppercase tracking-widest opacity-80">Facility Monitoring</p>
-</div>
-<div>
-<p class="text-4xl font-bold mb-2">0</p>
-<p class="text-xs uppercase tracking-widest opacity-80">Safety Incidents</p>
-</div>
-<div>
-<p class="text-4xl font-bold mb-2">15+</p>
-<p class="text-xs uppercase tracking-widest opacity-80">Years Expertise</p>
-</div>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="bg-[#f7f9fb] dark:bg-slate-950 w-full border-t border-[#c3c6d5]/15 font-['Manrope'] text-sm tracking-wide">
-<div class="flex flex-col md:flex-row justify-between items-center py-12 px-8 max-w-7xl mx-auto gap-6">
-<div class="text-lg font-black text-[#00327d] dark:text-blue-400">Advaith Industries</div>
-<div class="flex flex-wrap justify-center gap-8 text-[#515f74]">
-<a class="hover:text-[#00327d] hover:underline transition-all" href="#">Privacy Policy</a>
-<a class="hover:text-[#00327d] hover:underline transition-all" href="#">Terms of Service</a>
-<a class="hover:text-[#00327d] hover:underline transition-all" href="#">Sustainability</a>
-<a class="hover:text-[#00327d] hover:underline transition-all" href="#">Careers</a>
-</div>
-<div class="text-[#515f74] text-center md:text-right">
-                © 2024 Advaith Industries. All rights reserved.
-            </div>
-</div>
-</footer>
-<script>
-    async function loadData() {
-        try {
-            const response = await fetch('/api/data');
-            const data = await response.json();
-            console.log('Backend Data:', data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    }
-    document.addEventListener('DOMContentLoaded', loadData);
-</script>
-<!-- Mobile Navigation Shell (Visible only on mobile) -->
-<div id="mobile-bottom-nav" class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-surface/90 backdrop-blur-xl shadow-2xl rounded-full px-6 py-3 flex justify-around items-center border border-outline-variant/10 z-[60]">
-<a class="flex flex-col items-center gap-1 text-secondary" href="/">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="text-[10px] font-bold uppercase">Home</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-secondary" href="/products">
-<span class="material-symbols-outlined">inventory_2</span>
-<span class="text-[10px] font-bold uppercase">Products</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-[#00327d]" href="/about">
-<span class="material-symbols-outlined">factory</span>
-<span class="text-[10px] font-bold uppercase">Facility</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-secondary" href="/contact">
-<span class="material-symbols-outlined">mail</span>
-<span class="text-[10px] font-bold uppercase">Contact</span>
-</a>
-</div>
-<!-- Custom Interactions -->
 <div id="blob" class="hidden md:block pointer-events-none fixed top-0 left-0 w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] z-[9999] opacity-30 mix-blend-multiply transition-transform duration-[50ms] ease-out will-change-transform"></div>
-<style>
-    #mobile-bottom-nav { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-    .btn-interactive { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important; }
-    .btn-interactive:active { transform: scale(0.92) !important; }
-</style>
+
 <script>
-  const blob = document.getElementById('blob');
-  if (blob) {
-    window.addEventListener('mousemove', (e) => {
-      requestAnimationFrame(() => blob.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`);
-    });
-  }
   let lastScrollY = window.scrollY;
   const mobileNav = document.getElementById('mobile-bottom-nav');
-  if (mobileNav) {
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        mobileNav.style.transform = 'translate(-50%, 150%)'; // hide
-      } else {
-        mobileNav.style.transform = 'translate(-50%, 0)'; // show
-      }
-      lastScrollY = currentScrollY;
-    }, { passive: true });
-  }
-  document.querySelectorAll('a, button').forEach(el => {
-      if (el.className.includes('bg-primary') || el.className.includes('border-2') || el.className.includes('machined-sheen') || el.className.includes('shadow-xl') || el.className.includes('bg-surface-container-lowest')) {
-          el.classList.add('btn-interactive');
-      }
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth < 768) {
+      if (window.scrollY > lastScrollY && window.scrollY > 100) mobileNav.style.transform = 'translate(-50%, 150%)';
+      else mobileNav.style.transform = 'translate(-50%, 0)';
+      lastScrollY = window.scrollY;
+    }
+  });
+  const blob = document.getElementById('blob');
+  window.addEventListener('mousemove', (e) => {
+    requestAnimationFrame(() => blob.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`);
   });
 </script>
-</body></html>
+
+</body>
+</html>
